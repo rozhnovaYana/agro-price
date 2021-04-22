@@ -1,39 +1,50 @@
-
 @media screen and ( min-height:900px  )
     @media screen and ( min-width:1600px  )
-        .modal
-            &-screen__logo
-                height: 200px
-                width: 400px
-    @media screen and ( max-width: 1200px )
-        .img_bottom
-            height: 50%
-
-    @media screen and ( max-width: 992px )
-        .img_bottom
-            height: 40%
-        .img_left-top
-            height: 50px
-
-    @media screen and ( max-width: 768px  )
-        .clip-left
-            width: 80%
-            height: 80%
+        .info-block__text
+            font-size: 30px
+        .modal-screen__logo
+            height: 150px
+            margin-bottom: 150px
+        .info-block__arrow
+            font-size: 50px
+        .info-text_active
+            font-size: 30px
 
 @media (min-width: 577px) and ( max-height: 576px )
     .modal
         &-screen
-            height: 700px
+            height: auto
+
 @media screen and ( max-width:576px )
     .clip-left
         width: 80%
-        height: 70%
+        height: 30%
+    .modal-screen
+        height: auto
 
 @media( max-width:768px) and ( max-height: 806px )
     .modal
         &-screen
-            height: 850px
+            height: auto
 @media (orientation: landscape) and ( max-height: 650px )
     .modal
         &-screen
-            height: 850px
+            height: auto
+@media screen and ( max-width: 992px )
+    .info
+        width: 95%
+        -webkit-column-gap: 62px
+        column-gap: 40px
+@media screen and ( max-width:  768px)
+    .info
+        grid-template-columns: 1fr
+        width: 85%
+    .clip-bottom
+        height: 100%
+    .clip-left
+        width: 500px
+        height: 650px
+@media screen and ( max-width:  577px)
+    .clip-left
+        width: 300px
+        height: 450px
