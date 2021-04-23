@@ -21,8 +21,8 @@ infoBlock.forEach(title => {
     })
 })
 const costs = {
-    EUR: [160, 200, 100, 260, 360, 120, 80, 450, 300, 200, 120],
-    USD: [100, 60]
+    EUR: [650, 400, 100, 850, 1150, 325, 325, 150, 400, 950, 1250, 100,100,100,100,100,100, 100, 150,200, 200, 200, 200, 1150, 1450],
+    USD: []
 }
 const getCurrency = async () => {
     const response = await fetch('https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json',
@@ -42,13 +42,17 @@ const converter = async() => {
     const eur = +data.find(item => item.cc === "EUR").rate
     const usd = +data.find(item => item.cc === "USD").rate
     const uah = [...costs.EUR.map(item => (+item * eur).toFixed(2)), ...costs.USD.map(item =>(+item * usd).toFixed(2))]
-    const costIntArray = [...costs.EUR.map(item => `€${item}`), ...costs.USD.map(item => `$${item}`)]
+    const costIntArray = [...costs.EUR.map(item => `€${item}`), ...costs.USD.map(item => `$${item}`)],
+        serviceTitle=document.querySelectorAll(".info-block__text")
     hiddenBlocks.forEach(block => {
         const num=block.getAttribute("data-text")
         const costsHTML = block.querySelector(".cost"),
-            costInt=block.querySelector(".costInt")
+            costInt = block.querySelector(".costInt"),
+            serviceText=block.querySelector(".service-name")
         costsHTML.textContent = uah[num - 1]
-        costInt.textContent=costIntArray[num-1]
+        costInt.textContent = costIntArray[num - 1]
+        const text = serviceTitle[num-1].innerText
+        serviceText.textContent=text
         const copy = block.querySelector(".copy"),
             copyAlert=document.querySelector(".copy-alert")
         copy.addEventListener("click", () => {
