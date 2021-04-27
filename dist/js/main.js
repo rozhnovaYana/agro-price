@@ -44,46 +44,75 @@ const getCurrency = async () => {
     }
     
 }
-const converter = async () => {
+const inputValue = (num) => {
+    const input = document.querySelectorAll(".info-input")
+    input.forEach(i => {
+        i.addEventListener("input", (e) => {
+        costs.EUR[num-1] = e.target.value
+        converterForUpdate()
+    })
+    })
+}
+inputValue(16)
+inputValue(17)
+let data,eur;
+const converterForFirstRender = async () => {
     const options = {
-        year:"numeric",
+        year: "numeric",
         month: "numeric",
         day: "numeric"
     }
     const date = new Intl.DateTimeFormat("ru-Ru", options).format()
-    const data = await getCurrency()
-    const eur = +data.find(item => item.cc === "EUR").rate
-    const usd = +data.find(item => item.cc === "USD").rate
-    const uah = [...costs.EUR.map(item => (+item * eur).toFixed(2)), ...costs.USD.map(item =>(+item * usd).toFixed(2))]
-    const costIntArray = [...costs.EUR.map(item => `€${item}`), ...costs.USD.map(item => `$${item}`)],
-        serviceTitle=document.querySelectorAll(".info-block__text")
+    data = await getCurrency()
+    eur = +data.find(item => item.cc === "EUR").rate
+    const uah = [...costs.EUR.map(item => (+item * eur).toFixed(2))]
+    const costIntArray = [...costs.EUR.map(item => `€${item}`)],
+        serviceTitle = document.querySelectorAll(".info-block__text")
     hiddenBlocks.forEach(block => {
-        const num=block.getAttribute("data-text")
+        const num = block.getAttribute("data-text")
         const costsHTML = block.querySelector(".cost"),
             costInt = block.querySelector(".costInt"),
             serviceText = block.querySelector(".service-name"),
-             dateCurrent = block.querySelector(".date")
-        dateCurrent.textContent=date
+            dateCurrent = block.querySelector(".date")
+        dateCurrent.textContent = date
         costsHTML.textContent = uah[num - 1]
-        costInt.textContent = costIntArray[num - 1]
-        const text = serviceTitle[num-1].innerText
-        serviceText.textContent=text
+        try {
+            costInt.textContent = costIntArray[num - 1]
+        } catch { }
+        const text = serviceTitle[num - 1].innerText
+        serviceText.textContent = text
         const copy = block.querySelector(".copy"),
-            copyAlert=document.querySelector(".copy-alert")
+            copyAlert = document.querySelector(".copy-alert")
         copy.addEventListener("click", () => {
             navigator.clipboard
                 .writeText(block.innerText)
                 .then(() => {
                     copyAlert.classList.add("copy-alert_active")
-                    setTimeout(()=>copyAlert.classList.remove("copy-alert_active"), 2000)
+                    setTimeout(() => copyAlert.classList.remove("copy-alert_active"), 2000)
                 })
                 .catch((e) => {
-                   console.error(e)
+                    console.error(e)
                 });
 
         })
     })
-    
 }
-converter()
+    const converterForUpdate = () => {
+        const uah = [...costs.EUR.map(item => (+item * eur).toFixed(2))]
+        const costIntArray = [...costs.EUR.map(item => `€${item}`)]
+        hiddenBlocks.forEach(block => {
+            const num = block.getAttribute("data-text")
+            const costsHTML = block.querySelector(".cost"),
+                costInt = block.querySelector(".costInt")
+            costsHTML.textContent = uah[num - 1]
+            try {
+                costInt.textContent = costIntArray[num - 1]
+            } catch {
+                
+            }
+        })
+    
+    }
+
+converterForFirstRender()
 
